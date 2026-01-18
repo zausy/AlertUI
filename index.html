@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal & Toast System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="ui-system.js" defer></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen p-8 flex flex-col items-center">
+
+    <div class="max-w-4xl w-full text-center space-y-8">
+
+        <div class="space-y-4">
+            <h1
+                class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
+                UI Component System
+            </h1>
+            <p class="text-gray-500 text-lg">Modular Modal & Toast notifications using Vanilla JS + TailwindCSS.</p>
+        </div>
+
+        <!-- DEMO SECTION: TOASTS -->
+        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center justify-center gap-2">
+                <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                    </path>
+                </svg>
+                Toast Notifications
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <button
+                    onclick="UISystem.showToast({ type: 'success', title: 'Berhasil', message: 'Data Anda telah tersimpan dengan aman.', showProgress: true })"
+                    class="px-4 py-3 rounded-lg bg-green-50 text-green-700 font-semibold border border-green-200 hover:bg-green-100 transition shadow-sm">
+                    Success (+Progress)
+                </button>
+                <button
+                    onclick="UISystem.showToast({ type: 'error', title: 'Gagal', message: 'Terjadi kesalahan saat menghubungi server.', showProgress: true })"
+                    class="px-4 py-3 rounded-lg bg-red-50 text-red-700 font-semibold border border-red-200 hover:bg-red-100 transition shadow-sm">
+                    Error (+Progress)
+                </button>
+                <button
+                    onclick="UISystem.showToast({ type: 'warning', title: 'Peringatan', message: 'Ada masalah pada koneksi Anda.' })"
+                    class="px-4 py-3 rounded-lg bg-yellow-50 text-yellow-700 font-semibold border border-yellow-200 hover:bg-yellow-100 transition shadow-sm">
+                    Warning (Title)
+                </button>
+                <button
+                    onclick="UISystem.showToast({ type: 'info', message: 'Pesan tanpa judul tetap terlihat rapih.', duration: 5000 })"
+                    class="px-4 py-3 rounded-lg bg-blue-50 text-blue-700 font-semibold border border-blue-200 hover:bg-blue-100 transition shadow-sm">
+                    Info (Simple)
+                </button>
+            </div>
+        </div>
+
+        <!-- DEMO SECTION: MODALS -->
+        <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center justify-center gap-2">
+                <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                    </path>
+                </svg>
+                Modals
+            </h2>
+            <div class="flex flex-wrap justify-center gap-4">
+
+                <!-- 1. INFO MODAL -->
+                <button onclick="demoInfoModal()"
+                    class="px-6 py-3 rounded-lg bg-gray-900 text-white font-medium hover:bg-gray-800 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    Open Info Modal
+                </button>
+
+                <!-- 2. CONFIRMATION MODAL -->
+                <button onclick="demoConfirmModal()"
+                    class="px-6 py-3 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    Open Confirmation
+                </button>
+
+                <!-- 3. FORM MODAL -->
+                <button onclick="demoFormModal()"
+                    class="px-6 py-3 rounded-lg bg-white text-indigo-600 border border-indigo-200 font-medium hover:bg-indigo-50 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    Open Custom Form
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Usage Scripts -->
+    <script>
+        // Example 1: Info Modal
+        function demoInfoModal() {
+            UISystem.openModal({
+                title: 'Informasi',
+                content: '<p class="leading-relaxed">Ini adalah contoh modal informasi sederhana. Anda bisa menutupnya dengan tombol di bawah atau tombol silang di pojok kanan atas.</p>',
+                showCancel: false,
+                confirmText: 'Mengerti'
+            });
+        }
+
+        // Example 2: Confirmation Modal
+        function demoConfirmModal() {
+            UISystem.openModal({
+                title: 'Hapus Data?',
+                content: 'Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin ingin menghapus data ini?',
+                showCancel: true,
+                confirmText: 'Ya, Hapus',
+                cancelText: 'Batal',
+                onConfirm: () => {
+                    UISystem.showToast({ type: 'success', message: 'Data berhasil dihapus!' });
+                },
+                onCancel: () => {
+                    UISystem.showToast({ type: 'info', message: 'Penghapusan dibatalkan.' });
+                }
+            });
+        }
+
+        // Example 3: Form Modal (Inputs)
+        function demoFormModal() {
+            // Template literal for content
+            const formContent = `
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                        <input type="text" id="inputName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" placeholder="Masukkan nama...">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="inputEmail" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" placeholder="nama@email.com">
+                    </div>
+                </div>
+            `;
+
+            UISystem.openModal({
+                title: 'Edit Profil',
+                content: formContent,
+                showCancel: true,
+                confirmText: 'Simpan Perubahan',
+                onConfirm: () => {
+                    const name = document.getElementById('inputName').value;
+                    const email = document.getElementById('inputEmail').value;
+
+                    if (!name || !email) {
+                        UISystem.showToast({ type: 'error', message: 'Mohon lengkapi semua data!' });
+                        return false; // Keep modal open
+                    }
+
+                    UISystem.showToast({ type: 'success', message: `Profil simpan: ${name}` });
+                    return true; // Close modal
+                }
+            });
+        }
+
+        // Playground Handler
+        function triggerPlayground() {
+            const message = document.getElementById('pg-message').value || 'Test Message';
+            const duration = parseInt(document.getElementById('pg-duration').value) || 3000;
+            const showProgress = document.getElementById('pg-progress').checked;
+
+            UISystem.showToast({
+                type: 'info',
+                title: 'Custom Toast',
+                message: message,
+                duration: duration,
+                showProgress: showProgress
+            });
+        }
+    </script>
+
+</body>
+
+</html>
